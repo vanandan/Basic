@@ -216,6 +216,7 @@ public class Experience
 		
 		System.out.println("You requested to exit. Back to Main Menu");
 		System.out.println("testing GIT");
+		System.out.println("Testing GIT from home laptop");
 		
 	}
 
