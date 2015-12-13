@@ -215,6 +215,7 @@ public class Experience
 		}while(!continueLLOps.equalsIgnoreCase("n"));
 		
 		System.out.println("You requested to exit. Back to Main Menu");
+		System.out.println("testing GIT");
 		
 	}
 
