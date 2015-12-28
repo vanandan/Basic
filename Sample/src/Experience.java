@@ -134,14 +134,28 @@ public class Experience
 			userChoice = new GetUserInput()
 			.getNaturalNumberInput(""
 					+ "What would you like to do? Type the Option Number"
+					+ "\n 0. Auto-add data to LL "
 					+ "\n 1. Add to LL \n 2. Add to LL at index pos"
 					+ "\n 3. Delete Node (tail) \n 4. Delete Node at index position "
 					+ "\n 5. Remove Duplicates v1 \n 6. Remove Duplicates v2 "
 					+ "\n 7. Remove Duplicates v3 \n 8. Display List "
+					+ "\n 9. Find kth last - Rec \n 10. Find kth last - Iter "
+					+ "\n 11. Sort list based on value v1 \n 12. "
 					);
 
 			switch (userChoice)
 			{
+				case 0:
+				{
+					if(ll.head!=null)
+					{
+						System.out.println("Data already exists. Cannot use this option");
+						break;
+					}
+					
+					ll.autoAdd();
+					break;
+				}
 				case 1:
 				{
 					int listValue;
@@ -206,6 +220,68 @@ public class Experience
 					ll.printList();
 					break;
 				}
+				case 9:
+				{
+					if(ll.listLength==0)
+						ll.autoAdd();
+					else
+					{
+						ll.printList();
+					}
+					int k;
+					
+					System.out.println("Please enter the element position from the end");
+					Scanner sc = new Scanner(System.in);
+					k = sc.nextInt();
+					
+					ll.findKthLastElementV1(k);
+					break;
+				}
+				case 10:
+				{
+					if(ll.listLength==0)
+						ll.autoAdd();
+					else
+					{
+						ll.printList();
+					}
+					int k;
+					
+					System.out.println("Please enter the element position from the end");
+					Scanner sc = new Scanner(System.in);
+					k = sc.nextInt();
+					
+					ll.findKthLastElementV2(k);
+					break;
+				}
+				case 11:
+				{
+					if(ll.listLength==0)
+						ll.autoAdd();
+					else
+					{
+						ll.printList();
+					}
+					int pivotValue;
+					
+					System.out.println("Please enter the value to sort around");
+					Scanner sc = new Scanner(System.in);
+					pivotValue = sc.nextInt();
+					
+					ll.sortListAroundPivot(pivotValue);
+					break;
+				}
+				case 12:
+				{
+					if(ll.head!=null)
+					{
+						System.out.println("Data already exists. Cannot use this option");
+						break;
+					}
+					
+					ll.autoAdd2();
+					break;
+				}
 
 			}
 			
@@ -214,10 +290,7 @@ public class Experience
 			
 		}while(!continueLLOps.equalsIgnoreCase("n"));
 		
-		System.out.println("You requested to exit. Back to Main Menu");
-		System.out.println("testing GIT");
-		System.out.println("Testing GIT from home laptop");
-		
+		System.out.println("You requested to exit. Back to Main Menu");		
 	}
 
 

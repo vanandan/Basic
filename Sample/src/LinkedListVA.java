@@ -8,6 +8,47 @@ public class LinkedListVA
 	Node tail;
 	int listLength = 0;
 	
+	public void autoAdd()
+	{
+		head = new Node(1);
+		listLength++;
+		Node currNode = head;
+		for(int i = 1; i<=3; i++)
+		{
+			currNode.nextNode = new Node(head.value + i*2);
+			currNode = currNode.nextNode;
+			listLength++;
+		}
+		currNode.nextNode = new Node(head.value);
+		listLength++;
+		printList();
+	}
+	
+	public void autoAdd2()
+	{
+		head = new Node(1);
+		listLength++;
+		Node currNode = head;
+		
+		currNode.nextNode = new Node(4);
+		currNode = currNode.nextNode;
+		listLength++;
+		
+		currNode.nextNode = new Node(3);
+		currNode = currNode.nextNode;
+		listLength++;
+		
+		currNode.nextNode = new Node(2);
+		currNode = currNode.nextNode;
+		listLength++;
+		
+		currNode.nextNode = new Node(5);
+		currNode = currNode.nextNode;
+		listLength++;
+		
+		printList();
+	}
+
 	public void addNode(int value)
 	{
 		Node newNode = new Node(value);
@@ -18,24 +59,12 @@ public class LinkedListVA
 		else
 		{
 			Node currNode = getNode(listLength-1);
-/*			for(int i=0; i<listLength; i++)
-			{
-				if(i==0)
-				{
-					currNode = head;
-				}
-				else
-				{
-					currNode = currNode.nextNode;
-				}
-			}
-*/			
 			currNode.nextNode = newNode;
 		}
 		
 		listLength++;
+		System.out.println("Len: " + listLength);
 		printList();
-
 	}
 	
 	private Node getNode(int index) // index values are from 0 to listLength-1
@@ -272,5 +301,138 @@ public class LinkedListVA
 			headNode.nextNode = headNode.nextNode.nextNode;
 			listLength--;
 		}
+	}
+	
+	public void findKthLastElementV1(int k)
+	{
+		findKthLastElementRecursive(k, head);
+	}
+	
+	public void findKthLastElementV2(int k)
+	{
+		if(head==null)
+		{
+			System.out.println("List is empty");
+			return;
+		}
+		
+		Node advancedNode = head;
+		
+		for(int i=1; i<k; i++)
+		{
+			if(advancedNode.nextNode==null)
+			{
+				System.out.println("List does not have as many as " + k + " elements");
+				return;
+			}
+			advancedNode = advancedNode.nextNode;
+		}
+		
+		Node curNode = head;
+		
+		for(int i=0; ; i++)
+		{
+			if(advancedNode.nextNode==null)
+			{
+				break;
+			}
+			curNode = curNode.nextNode;
+			advancedNode = advancedNode.nextNode;
+		}
+		
+		System.out.println("Kth element is: " + curNode.value);				
+	}
+	
+	private int findKthLastElementRecursive(int k, Node head)
+	{
+		int currElementNum = 0;
+		if(head.nextNode==null)
+		{
+			if(k==1)
+				System.out.println("Kth element is: " + head.value);
+
+			return 1;
+		}
+		
+		if(head.nextNode!=null)
+		{
+			currElementNum = 1 + findKthLastElementRecursive(k, head.nextNode);
+		}
+		
+		if(currElementNum==k)
+			System.out.println("Kth element is: " + head.value);
+		
+		return currElementNum;
+	}
+
+	public void sortListAroundPivot(int pivotValue)
+	{
+		LinkedListVA lessThanList = new LinkedListVA();
+		LinkedListVA equalToList = new LinkedListVA();
+		LinkedListVA greaterThanList = new LinkedListVA();
+		LinkedListVA finalList = new LinkedListVA();
+		Node currNode = head;
+		
+		if(head==null)
+		{
+			System.out.println("List is empty");
+			return;
+		}
+		
+		while(currNode!=null)
+		{
+		
+			if(currNode.value<pivotValue)
+			{
+				lessThanList.addNode(0, currNode.value);
+			}
+			else if(currNode.value==pivotValue)
+			{
+				equalToList.addNode(0, currNode.value);
+			}
+			else if (currNode.value>pivotValue)
+			{
+				greaterThanList.addNode(0, currNode.value);
+			}
+			
+			currNode = currNode.nextNode;
+		}
+		
+		Node lastNode = null; 
+		// Node toBeDel = null;
+		
+		if(lessThanList.listLength>0)
+		{
+			finalList = lessThanList;
+			// finalList.listLength--; // += (lessThanList.listLength-1);
+			lastNode = finalList.getNode(finalList.listLength-1);
+		}
+		
+		if(equalToList.listLength>0)
+		{
+			if(lastNode!=null)
+			{
+				lastNode.nextNode = equalToList.getNode(0);
+			}
+			else // If lastNode is null, it means that the lessThanList was NULL.
+			{
+				finalList = equalToList;
+			}
+			
+			finalList.listLength += equalToList.listLength;
+			lastNode = finalList.getNode(finalList.listLength-1);
+		}
+		
+		if(greaterThanList.listLength>0)
+		{
+			if(lastNode!=null)
+				lastNode.nextNode = greaterThanList.getNode(0);
+			else  // If lastNode is null, it means that the lessThanList AND equalToList were both NULL.
+				finalList = greaterThanList;
+			
+			finalList.listLength += greaterThanList.listLength;
+		}
+		
+		finalList.printList();
 	}
 }
